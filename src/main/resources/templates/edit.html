@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Редактировать пользователя</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+<div th:replace="logout_fragment :: logout" ></div>
+<div class="container">
+    <h1>Редактировать пользователя</h1>
+    <form th:action="@{/admin/saveEdit}" th:object="${user}" method="post">
+        <input type="hidden" th:field="*{id}"/>
+        <div class="form-group">
+            <label for="username">Имя пользователя:</label>
+            <input type="text" class="form-control" id="username" th:field="*{username}" required/>
+        </div>
+        <div class="form-group">
+            <label for="password">Пароль:</label>
+            <input type="password" class="form-control" id="password" th:field="*{password}" required/>
+        </div>
+        <div class="form-group">
+            <label for="role">Role:</label>
+            <select id="role" th:field="*{roles}">
+                <option th:each="role : ${roles}" th:value="${role.id}" th:text="${role.name}"></option>
+            </select><br>
+        </div>
+        <button type="submit" class="btn btn-primary">Сохранить</button>
+    </form>
+</div>
+
+</body>
+</html>
