@@ -6,7 +6,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.kata.spring.boot_security.demo.model.User;
-import ru.kata.spring.boot_security.demo.util.CustomUserDetails;
 
 @Service
 @Transactional
@@ -22,12 +21,10 @@ public class UserDetailsServicelmp implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userService.findByName(username);
-
         if (user == null) {
             throw new UsernameNotFoundException("User not found");
         }
-
-        return new CustomUserDetails(user);
+        return user;
     }
 
 }
