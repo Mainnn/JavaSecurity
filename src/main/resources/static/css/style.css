@@ -1,0 +1,47 @@
+.round-block {
+    background-color: rgb(255, 255, 255); /* замените #F00 на желаемый цвет */
+    border-radius: 1%; /* делает блок круглым */
+    
+  }
+  .auto-block {
+    display: table-column;
+    background-color:rgb(255, 255, 255);
+    border-radius: 10px;
+    padding: 10px;
+  }
+  .round-block.auto-block {
+    display: inline-block;
+    background-color: rgb(255, 255, 255);
+    border-radius: 5px;
+    padding: 10px;
+    margin: 20px;
+    box-sizing: border-box;
+    width: auto;
+    min-width: 95%;
+    max-width: auto;
+    border: 0.5px solid #9f9e9e; /* увеличиваем толщину рамки и изменяем ее цвет на черный */
+  }
+  html,
+body {
+    height: 100%;
+    overflow: hidden;
+}
+  .content-in-block {
+    
+    background-color: #9f9e9e;
+  }
+  .activeAdmin{
+    background-color: #3f80cf;
+    color: aliceblue;
+    text-decoration: aliceblue;
+    
+  }
+ 
+  a.activeAdmin:visited{
+    color: aliceblue;
+    background-color: #0d6efd;
+  }
+  body{
+    font-size: 22px;
+  }
+

@@ -1,21 +1,29 @@
 package ru.kata.spring.boot_security.demo.model;
 
 
+import lombok.Getter;
+import lombok.Setter;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import javax.persistence.*;
 import java.util.*;
 
 @Entity
+@Getter
+@Setter
 public class User implements UserDetails {
+
     @Id
     @GeneratedValue
     private Long id;
 
     private String username;
     private String password;
+
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE},fetch = FetchType.EAGER)
     @JoinTable(name = "users_roles",
             joinColumns = @JoinColumn(name = "user_id"),
@@ -36,19 +44,7 @@ public class User implements UserDetails {
     }
 
 
-    public Set<Role> getRoles(){
-        return roles;
-    }
 
-    public void setRoles(Set<Role> roles) {
-        this.roles = roles;
-    }
-
-
-
-    public String getUsername() {
-        return username;
-    }
 
     @Override
     public boolean isAccountNonExpired() {
@@ -70,30 +66,10 @@ public class User implements UserDetails {
         return true;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
-    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return roles;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     @Override
@@ -118,4 +94,13 @@ public class User implements UserDetails {
     public int hashCode() {
         return Objects.hash(id);
     }
+    public String getRolesString(){
+        StringBuilder rolesStr= new StringBuilder();
+        for (Role role:getRoles()) {
+            rolesStr.append(role.toStringForName());
+            rolesStr.append(" ");
+        }
+        return rolesStr.toString();
+    }
+
 }

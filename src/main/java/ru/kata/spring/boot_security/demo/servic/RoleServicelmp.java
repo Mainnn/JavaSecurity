@@ -41,4 +41,9 @@ public class RoleServicelmp implements RoleService{
         return repotiory.findById(id).orElse(null);
     }
 
+    @Override
+    public Role findByName(String name) {
+        return repotiory.findByName(name);
+    }
+
 }

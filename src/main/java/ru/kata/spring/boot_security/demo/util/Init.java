@@ -17,8 +17,11 @@ public class Init implements ApplicationListener<ContextRefreshedEvent> {
 
     @Override
     public void onApplicationEvent(ContextRefreshedEvent event) {
-//        User user = new User("ADMIN","1",new Role("ADMIN"));
-//        User user1 = new User("USER","1",new Role("USER"));
+//        Role Admin = new Role("ADMIN");
+//        Role User = new Role("USER");
+//        User user = new User("ADMIN","1",Admin);
+//        User user1 = new User("USER","1",User);
+//        user1.getRoles().add(Admin);
 //        userService.save(user);
 //        userService.save(user1);
     }

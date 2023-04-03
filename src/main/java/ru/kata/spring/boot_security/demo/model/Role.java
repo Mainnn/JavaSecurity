@@ -57,7 +57,9 @@ public class Role implements GrantedAuthority {
                 ", name='" + name + '\'' +
                 '}';
     }
-
+    public String toStringForName(){
+        return name;
+    }
 
     @Override
     public boolean equals(Object o) {
