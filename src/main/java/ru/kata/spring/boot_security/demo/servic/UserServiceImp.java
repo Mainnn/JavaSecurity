@@ -22,14 +22,12 @@ public class UserServiceImp implements UserService {
 
     private final UserRepository userRepository;
     private final RoleService roleService;
-    private final RoleRepository roleRepository;
 
     private final BCryptPasswordEncoder encoder;
 
-    public UserServiceImp(UserRepository userRepository, RoleService roleService, RoleRepository roleRepository, BCryptPasswordEncoder encoder) {
+    public UserServiceImp(UserRepository userRepository, RoleService roleService, BCryptPasswordEncoder encoder) {
         this.userRepository = userRepository;
         this.roleService = roleService;
-        this.roleRepository = roleRepository;
         this.encoder = encoder;
     }
 
@@ -40,7 +38,7 @@ public class UserServiceImp implements UserService {
 
 
     @Override
-    public List<User> findAll() {
+    public List<User> findAllWithRoles() {
         return (List<User>) userRepository.findAll();
     }
 
@@ -78,13 +76,17 @@ public class UserServiceImp implements UserService {
         Set<Role> userRoles = new HashSet<>();
 
         for (Role role : user.getRoles()) {
-            Role temp = roleService.findRoleById(role.getId());
-            if (temp == null) {
-                temp = new Role();
-                temp.setName(role.getName());
-                temp = roleRepository.save(temp);
+            if(role.getId()!=null){
+                Role temp = roleService.findRoleById(role.getId());
+                if (temp == null) {
+                    roleService.save(role);
+                }
+                userRoles.add(temp);
+            }else {
+                roleService.save(role);
+                userRoles.add(role);
             }
-            userRoles.add(temp);
+
 
         }
 

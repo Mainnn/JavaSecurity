@@ -22,7 +22,7 @@ public class UsingController {
 
     @GetMapping(value = "/admin")
     public String printWelcome(ModelMap model) {
-        model.addAttribute("users", userService.findAll());
+        model.addAttribute("users", userService.findAllWithRoles());
         model.addAttribute("updateUser",new User());
         return "userss";
     }
