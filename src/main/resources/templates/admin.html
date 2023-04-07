@@ -71,7 +71,6 @@
                   <tr>
                     <th>ID</th>
                     <th>Имя пользователя</th>
-                    <th>Пароль</th>
                     <th>Роль</th>
                     <th>Edit</th>
                     <th>dell</th>
@@ -81,7 +80,6 @@
                   <tr th:each="user : ${users}">
                     <td th:text="${user.id}"></td>
                     <td th:text="${user.getUsername()}"></td>
-                    <td th:text="${user.getPassword()}" ></td>
                     <td th:text="${user.getRolesString()}"></td>
                     <td>
                       <button type="button" class="btn btn-primary edit-user-btn"

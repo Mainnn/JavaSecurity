@@ -10,7 +10,6 @@
                 <tr class="border-top">
                     <th scope="col">ID</th>
                     <th scope="col">UserName</th>
-                    <th scope="col">Passwrod</th>
                     <th scope="col">Role</th>
                 </tr>
                 </thead>
@@ -18,7 +17,7 @@
                 <tr class="border-top bg-light" th:object="${userA}">
                     <td th:text="*{id}"/>
                     <td th:text="*{username}"/>
-                    <td th:text="*{password}"/>
+
                     <td>
                         <th:block th:each="role : *{getRoles()}">
                             &nbsp;<span th:text="${role.toStringForName()}"/>
