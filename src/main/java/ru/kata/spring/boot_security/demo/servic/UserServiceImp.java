@@ -53,41 +53,27 @@ public class UserServiceImp implements UserService {
     }
 
     @Override
-    public String getLoggedInUsername() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication != null && authentication.isAuthenticated()) {
-            Object principal = authentication.getPrincipal();
-            if (principal instanceof UserDetails) {
-                return ((UserDetails) principal).getUsername();
-            } else {
-                return principal.toString();
-            }
-        }
-        return null;
+    public List<User> findAll() {
+        return userRepository.findAllBy();
     }
-//используеться в Init
 
 
     @Override
     @Transactional
     public void save(User user) {
-        System.out.println(user.toString());
         user.setPassword(encoder.encode(user.getPassword()));
         Set<Role> userRoles = new HashSet<>();
 
         for (Role role : user.getRoles()) {
-            if(role.getId()!=null){
-                Role temp = roleService.findRoleById(role.getId());
-                if (temp == null) {
-                    roleService.save(role);
-                }
-                userRoles.add(temp);
-            }else {
+            Role existingRole = roleService.findByName(role.getName());
+            if (existingRole == null) {
+                // Если роль не существует, сохраните новую роль и добавьте ее к пользователю
                 roleService.save(role);
                 userRoles.add(role);
+            } else {
+                // Если роль существует, просто добавьте ее к пользователю
+                userRoles.add(existingRole);
             }
-
-
         }
 
         user.setRoles(userRoles);

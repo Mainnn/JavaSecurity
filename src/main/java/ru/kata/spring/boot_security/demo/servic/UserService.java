@@ -16,7 +16,5 @@ public interface UserService {
     List<User> findAllWithRoles();
     User findById(long id);
     User findByName(String username);
-    String getLoggedInUsername ();
-
-
+    List<User> findAll();
 }

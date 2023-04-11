@@ -13,57 +13,74 @@
   <div class="row">
     <!-- Шапка -->
     <header th:replace="header :: header"/>
-  <div class="row">
+    <div class="row">
 
-    <!-- Боковое меню -->
-    <div class="col bg-white px-0">
-      <div class="d-flex flex-column">
-        <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-          <button class="nav-link text-start active" id="v-pills-admin-tab" data-bs-toggle="pill"
-                  data-bs-target="#v-pills-admin" type="button" role="tab" aria-controls="v-pills-admin"
-                  aria-selected="true">Admin
-          </button>
-          <button class="nav-link text-start" id="v-pills-user-tab" data-bs-toggle="pill"
-                  data-bs-target="#v-pills-user"
-                  type="button" role="tab" aria-controls="v-pills-user" aria-selected="false">User
-          </button>
+
+      <!-- Боковое меню -->
+      <div class="col bg-white px-0">
+        <div class="d-flex flex-column">
+          <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+            <button class="nav-link text-start active" id="v-pills-admin-tab" data-bs-toggle="pill"
+                    data-bs-target="#v-pills-admin" type="button" role="tab" aria-controls="v-pills-admin"
+                    aria-selected="true" >Admin
+            </button>
+            <button class="nav-link text-start" id="v-pills-user-tab" data-bs-toggle="pill"
+                    data-bs-target="#v-pills-user"
+                    type="button" role="tab" aria-controls="v-pills-user" aria-selected="false">User
+            </button>
+          </div>
         </div>
       </div>
-    </div>
-    <div class="col-10 vh-100 bg-light">
-      <div class="tab-content" id="v-pills-tabContent">
-        <div class="tab-pane fade show active" id="v-pills-admin" role="tabpanel"
-             aria-labelledby="v-pills-admin-tab">
-          <div th:replace="this :: admin"/>
-        </div>
-        <div class="tab-pane fade" id="v-pills-user" role="tabpanel" aria-labelledby="v-pills-user-tab">
-          <div th:replace="userА :: userA"/>
+      <div class="col-10 vh-100 bg-light">
+        <div class="tab-content" id="v-pills-tabContent">
+          <div class="tab-pane fade show active" id="v-pills-admin" role="tabpanel"
+               aria-labelledby="v-pills-admin-tab">
+            <div th:replace="this :: admin"/>
+          </div>
+          <div class="tab-pane fade" id="v-pills-user" role="tabpanel" aria-labelledby="v-pills-user-tab">
+              <h2>User information-page</h2>
+              <div class="card">
+                <h5 class="card-header">About user</h5>
+                <div class="card-body text-center">
+                  <table class="table table-striped">
+                    <thead>
+                    <tr>
+                      <th>ID</th>
+                      <th>User Name</th>
+                      <th>Role</th>
+                    </tr>
+                    </thead>
+                    <tbody id="userInfo">
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+          </div>
         </div>
       </div>
-    </div>
-    <!-- Остальное содержимое -->
-    <!-- Контент -->
-    <div class="col-md-10 " th:fragment="admin" >
-      <h1>Admin</h1>
+      <!-- Остальное содержимое -->
+      <!-- Контент -->
+      <div class="col-md-10 " th:fragment="admin"id="adminPanel" >
+        <h1>Admin</h1>
 
-      <div class="auto-block round-block">
-        <!-- Контент -->
-        <ul class="nav nav-tabs " id="myTab" role="tablist">
-          <li class="nav-item" role="presentation">
-            <button class="nav-link active" id="home-tab" data-bs-toggle="tab"
-                    data-bs-target="#home" type="button" role="tab" aria-controls="home"
-                    aria-selected="true">User table</button>
-          </li>
-          <li class="nav-item" role="presentation">
-            <button class="nav-link" id="profile-tab" data-bs-toggle="tab"
-                    data-bs-target="#profile" type="button" role="tab" aria-controls="profile"
-                    aria-selected="false">New user</button>
-          </li>
-        </ul>
-        <div class="tab-content" id="myTabContent">
-          <div class="tab-pane fade show active " id="home" role="tabpanel" aria-labelledby="home-tab">
+        <div class="auto-block round-block">
+          <!-- Контент -->
+          <ul class="nav nav-tabs " id="myTab" role="tablist">
+            <li class="nav-item" role="presentation">
+              <button class="nav-link active" id="home-tab" data-bs-toggle="tab"
+                      data-bs-target="#home" type="button" role="tab" aria-controls="home"
+                      aria-selected="true">User table</button>
+            </li>
+            <li class="nav-item" role="presentation">
+              <button class="nav-link" id="profile-tab" data-bs-toggle="tab"
+                      data-bs-target="#profile" type="button" role="tab" aria-controls="profile"
+                      aria-selected="false">New user</button>
+            </li>
+          </ul>
+          <div class="tab-content" id="myTabContent">
+            <div class="tab-pane fade show active " id="home" role="tabpanel" aria-labelledby="home-tab">
 
-            <h3 class="m-4">All users</h3>
+              <h3 class="m-4">All users</h3>
 
               <div class="container">
                 <table class="table table-striped">
@@ -77,152 +94,158 @@
                   </tr>
                   </thead>
                   <tbody>
-                  <tr th:each="user : ${users}">
-                    <td th:text="${user.id}"></td>
-                    <td th:text="${user.getUsername()}"></td>
-                    <td th:text="${user.getRolesString()}"></td>
-                    <td>
-                      <button type="button" class="btn btn-primary edit-user-btn"
-                              data-bs-toggle="modal"
-                              th:attr="data-bs-target='#editModal'+${user.id}"
-                      >Редактировать</button>
-                    </td>
-
-
-                    <td>
-
-                      <form th:action="@{/admin/del(id=${user.getId()})}" method="post">
-                        <input type="submit" name="Delite" value="Delite" th:attr="value='Delite'" />
-                      </form>
-                    </td>
-
-                  </tr>
                   </tbody>
+                  <tr>
+                    <tbody class="AllUsers">
+                    </tbody>
+                  </tr>
                 </table>
               </div>
-          </div>
+            </div>
 
-          <div class="tab-pane fade text-center" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-            <h1>Создание пользователя</h1>
-            <form action="#" th:action="@{/admin/create_user}" th:object="${userCreate}" method="post">
-              <div class="container">
-                <div class="row">
-                  <div class="col-12">
-                    <label for="username">Имя пользователя:</label>
+<!--            Создание нового пользователя-->
+            <form id="createUserForm">
+              <div class="tab-pane fade text-center" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                <h1>Создание пользователя</h1>
+                <div class="container">
+                  <div class="row">
+                    <div class="col-12">
+                      <label for="username">Имя пользователя:</label>
+                    </div>
+                    <div class="col-12">
+                      <input type="text" id="username" name="username" class="form-control" required>
+                    </div>
                   </div>
-                  <div class="col-12">
-                    <input type="text" id="username" th:field="*{username}" class="form-control" required>
+                  <div class="row mt-3">
+                    <div class="col-12">
+                      <label for="password">Пароль:</label>
+                    </div>
+                    <div class="col-12">
+                      <input type="password" id="password" name="password" class="form-control" required>
+                    </div>
                   </div>
-                </div>
-                <div class="row mt-3">
-                  <div class="col-12">
-                    <label for="password">Пароль:</label>
-                  </div>
-                  <div class="col-12">
-                    <input type="password" id="password" th:field="*{password}" class="form-control" required>
-                  </div>
-                </div>
-                <div class="row mt-3">
-                  <div class="col-12">
-                    <label for="role">Роли:</label>
-                  </div>
-                  <div class="col-12">
-                    <select id="role" th:field="*{roles}" multiple class="form-select">
-                      <option th:each="role : ${allRoles}" th:value="${role.id}" th:text="${role.name}"></option>
+                  <div class="col-12 mt-3">
+                    <select id="roles" class="form-control" multiple>
                     </select>
                   </div>
-                </div>
-                <div class="row mt-3">
-                  <div class="col-12">
-                    <button type="submit" class="btn btn-primary">Создать</button>
+                  <div class="row mt-3">
+                    <div class="col-12">
+                      <button type="submit" class="btn btn-primary">Создать</button>
+                    </div>
                   </div>
                 </div>
               </div>
             </form>
+
           </div>
-
-
         </div>
-
       </div>
     </div>
-
   </div>
-</div>
 
-<!-- Modal EDIT USER-->
-<div th:each="user:${users}">
-  <div class="editForm">
-    <div class="modal fade" th:attr="id='editModal'+${user.id}" aria-hidden="true"
-         role="dialog" aria-labelledby="editModal">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title">Edit user</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal"
-                    aria-label="Close"></button>
-          </div>
-          <div class="modal-body fw-bold">
-            <div style="text-align: center;">
-              <div class="row justify-content-center align-items-center">
-                <form class="text-center" th:action="@{/admin/saveEdit/{id}(id=${user.getId()})}" th:method="POST" th:object="${userEdit}" id="editFormBody">
-                  <div class="form-group font-weight-bold">
-                    <div class="form-group m-3">
-                      <label for="idEdit" class="col-form-label">ID</label>
-                      <input type="text" class="form-control" id="idEdit" name="id" th:value="${user.id}" disabled />
-                    </div>
-                    <div class="form-group m-3">
-                      <label for="username">Имя</label>
-                      <input type="text" class="form-control" id="firstNameEdit" name="username" th:value="${user.username}" />
-                    </div>
-                    <div class="form-group m-3">
-                      <label for="password">Пароль</label>
-                      <input type="text" class="form-control" id="passwordEdit" name="password" th:value="${user.password}" />
-                    </div>
-                    <div class="form-group  m-3">
-                      <div class="d-flex flex-column ">
-                        <label for="roleEdit" class="font-weight-bold">Роли:</label>
-                        <select id="roleEdit" th:field="*{roles}" name="roleEdit" multiple class="w-100 mt-2">
-                          <option th:each="role : ${allRoles}" th:value="${role.id}" th:text="${role.name}"></option>
-                        </select>
-                      </div>
-                    </div>
+  <!-- Modal EDIT USER-->
+<!--  <div th:each="user:${users}">-->
+<!--    <div class="editForm">-->
+<!--      <div class="modal fade" th:attr="id='editModal'+${user.id}" aria-hidden="true"-->
+<!--           role="dialog" aria-labelledby="editModal">-->
+<!--        <div class="modal-dialog">-->
+<!--          <div class="modal-content">-->
+<!--            <div class="modal-header">-->
+<!--              <h5 class="modal-title">Edit user</h5>-->
+<!--              <button type="button" class="btn-close" data-bs-dismiss="modal"-->
+<!--                      aria-label="Close"></button>-->
+<!--            </div>-->
+<!--            <div class="modal-body fw-bold">-->
+<!--              <div style="text-align: center;">-->
+<!--                <div class="row justify-content-center align-items-center">-->
+<!--                  <form class="text-center" th:action="@{/admin/saveEdit/{id}(id=${user.getId()})}" th:method="POST"  id="editFormBody">-->
+<!--                    <div class="form-group font-weight-bold">-->
+<!--                      <div class="form-group m-3">-->
+<!--                        <label for="idEdit" class="col-form-label">ID</label>-->
+<!--                        <input type="text" class="form-control" id="idEdit" name="id"  disabled />-->
+<!--                      </div>-->
+<!--                      <div class="form-group m-3">-->
+<!--                        <label for="username">Имя</label>-->
+<!--                        <input type="text" class="form-control" id="firstNameEdit" name="username"  />-->
+<!--                      </div>-->
+<!--                      <div class="form-group m-3">-->
+<!--                        <label for="password">Пароль</label>-->
+<!--                        <input type="text" class="form-control" id="passwordEdit" name="password"  />-->
+<!--                      </div>-->
+<!--                      <div class="form-group  m-3">-->
+<!--                        <div class="d-flex flex-column ">-->
 
-                    <div class="modal-footer">
-                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
-                      <input type="submit" class="btn btn-danger" value="Edit" />
+<!--                          </select>-->
+<!--                        </div>-->
+<!--                      </div>-->
+
+<!--                      <div class="modal-footer">-->
+<!--                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>-->
+<!--                        <input type="submit" class="btn btn-danger" value="Edit" />-->
+<!--                      </div>-->
+<!--                    </div>-->
+<!--                  </form>-->
+
+<!--                </div>-->
+<!--              </div>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--    </div>-->
+<!--  </div>-->
+  <div class="modal fade" id="editModal" aria-hidden="true" role="dialog" aria-labelledby="editModal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Edit user</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body fw-bold">
+          <div style="text-align: center;">
+            <div class="row justify-content-center align-items-center">
+              <form class="text-center" id="editFormBody" onsubmit="submitEditForm(event)">
+                <div class="form-group font-weight-bold">
+                  <div class="form-group m-3">
+                    <label for="idEdit" class="col-form-label">ID</label>
+                    <input type="text" class="form-control" id="idEdit" name="id" disabled />
+                  </div>
+                  <div class="form-group m-3">
+                    <label for="username">Имя</label>
+                    <input type="text" class="form-control" id="firstNameEdit" name="username" />
+                  </div>
+                  <div class="form-group m-3">
+                    <label for="password">Пароль</label>
+                    <input type="text" class="form-control" id="passwordEdit" name="password" />
+                  </div>
+                  <div class="form-group m-3">
+                    <div class="d-flex flex-column ">
+                      <select id="rolesEdit" class="form-control" multiple>
+                      </select>
                     </div>
                   </div>
-                </form>
-
-              </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+                    <input type="submit" class="btn btn-danger" value="Edit" />
+                  </div>
+                </div>
+              </form>
             </div>
           </div>
         </div>
       </div>
     </div>
   </div>
+
+
+  <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+  <script src="js/allUsers.js"></script>
+  <script src="/js/user.js"></script>
+  <script src="/js/UpdateTabble.js"></script>
+  <script src="/js/updateUser.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="/js/AddUser.js"></script>
 </div>
-
-<script th:src="@{static}"></script>
-<script>
-  // Находим все ссылки с атрибутом data-link-id
-  const adminLinks = document.querySelectorAll('[data-link-id]');
-
-  // Назначаем обработчик событий клика для каждой ссылки
-  adminLinks.forEach(link => {
-    link.addEventListener('click', event => {
-      event.preventDefault();
-
-      // Удаляем класс active со всех ссылок
-      adminLinks.forEach(l => l.classList.remove('activeAdmin'));
-
-      // Назначаем класс active для кликнутой ссылки
-      link.classList.add('activeAdmin');
-    });
-  });
-</script>
-
-<script th:src="@{/js/bootstrap.bundle.min.js}"></script>
 </body>
 </html>

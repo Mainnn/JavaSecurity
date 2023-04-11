@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Информация о пользователе</title>
+  <script>
+    function fetchUser(id) {
+      fetch(`/users/${id}`)
+              .then(response => {
+                if (response.ok) {
+                  return response.json();
+                } else {
+                  throw new Error('Пользователь не найден');
+                }
+              })
+              .then(user => {
+                const tableBody = document.getElementById('user-table-body');
+                const row = document.createElement('tr');
+
+                const idCell = document.createElement('td');
+                idCell.textContent = user.id;
+                row.appendChild(idCell);
+
+                const nameCell = document.createElement('td');
+                nameCell.textContent = user.name;
+                row.appendChild(nameCell);
+
+                const emailCell = document.createElement('td');
+                emailCell.textContent = user.email;
+                row.appendChild(emailCell);
+
+                tableBody.appendChild(row);
+              })
+              .catch(error => {
+                console.error(error);
+                alert('Ошибка: ' + error.message);
+              });
+    }
+  </script>
+</head>
+<body>
+<table>
+  <thead>
+  <tr>
+    <th>ID</th>
+    <th>Имя</th>
+    <th>Электронная почта</th>
+  </tr>
+  </thead>
+  <tbody id="user-table-body">
+  </tbody>
+</table>
+<script>
+  const userId = 1; // Замените на нужный ID пользователя
+  fetchUser(userId);
+</script>
+</body>
+</html>

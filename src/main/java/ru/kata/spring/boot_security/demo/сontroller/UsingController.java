@@ -1,6 +1,8 @@
 package ru.kata.spring.boot_security.demo.сontroller;
 
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,23 +21,22 @@ public class UsingController {
         this.userService = userService;
         this.roleService = roleService;
     }
-
-    @GetMapping(value = "/admin")
-    public String printWelcome(ModelMap model) {
-        model.addAttribute("users", userService.findAllWithRoles());
-        model.addAttribute("updateUser",new User());
-        model.addAttribute("userA", userService.findByName(SecurityContextHolder.getContext().getAuthentication().getName()));
-        model.addAttribute("userEdit", new User());
-        model.addAttribute("userCreate", new User());
-        model.addAttribute("allRoles", roleService.findAll());
-        return "admin";
-    }
-    @GetMapping(value = "/user")
-    public String user(ModelMap model) {
-        model.addAttribute("userA", userService.findByName(SecurityContextHolder.getContext().getAuthentication().getName()));
-        model.addAttribute("user", userService.findByName(SecurityContextHolder.getContext().getAuthentication().getName()));
-        return "user";
-    }
+//    @GetMapping(value = "/admin")
+//    public String printWelcome(ModelMap model) {
+//        model.addAttribute("users", userService.findAllWithRoles());
+//        model.addAttribute("updateUser", new User());
+//        model.addAttribute("userA", userService.findByName(SecurityContextHolder.getContext().getAuthentication().getName()));
+//        model.addAttribute("userEdit", new User());
+//        model.addAttribute("userCreate", new User());
+//        model.addAttribute("allRoles", roleService.findAll());
+//        return "admin";
+//    }
+//    @GetMapping(value = "/user")
+//    public String user(ModelMap model) {
+//        model.addAttribute("userA", userService.findByName(SecurityContextHolder.getContext().getAuthentication().getName()));
+//        model.addAttribute("user", userService.findByName(SecurityContextHolder.getContext().getAuthentication().getName()));
+//        return "user";
+//    }
     @PostMapping(value = "/admin/del")
     public String delUser(@RequestParam Long id, ModelMap model){
         userService.del(id);
@@ -66,15 +67,6 @@ public class UsingController {
 //        model.addAttribute("roles",roleService.findAll());
 //        return "redirect:/admin";
 //    }
-
-    @PostMapping("/admin/saveEdit/{id}")
-    public String updateUser(@ModelAttribute("userEdit") User user, @PathVariable("id") Long id) throws Exception {
-        System.out.println(user.toString());
-        user.setId(id);
-        userService.save( user);
-        return "redirect:/admin";
-    }
-
 
 
 }
